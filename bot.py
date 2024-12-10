@@ -77,7 +77,7 @@ class SupportBot(commands.Cog):
             replied_message = await message.channel.fetch_message(message.reference.message_id)
 
             if replied_message.author == self.bot.user:
-                await message.delete() 
+                await message.delete()
                 return
             
             messages_to_move = await self.get_messages_to_move(message, replied_message)
@@ -192,11 +192,13 @@ class SupportBot(commands.Cog):
         if logs_channel:
             await logs_channel.send(embed=discord.Embed(description=error_message, color=RED))
 
-    @app_commands.command(name="ping", description="Check the bot's ping")
+    @app_commands.command(name="ping", description="Check the bot's status")
     async def ping(self, interaction: discord.Interaction):
         latency = self.bot.latency * 1000  # Convert to milliseconds
         api_response_time = round(latency, 2)
-        await interaction.response.send_message(f"Bot Latency: {api_response_time}ms")
+        embed = discord.Embed(title="I'm Alive!", description=f"**Response time:** {api_response_time}ms", color=GREEN)
+        embed.set_footer(text="Version v1.1 Stable")
+        await interaction.response.send_message(embed=embed)
 
 async def main():
     async with bot:
