@@ -35,6 +35,7 @@ class SupportBot(commands.Cog):
         print(f'{self.bot.user} has connected to Discord!')
         await self.send_startup_log()
         await self.bot.tree.sync()
+        await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="coolLabs"))
 
     async def send_startup_log(self):
         logs_channel = self.bot.get_channel(LOGS_CHANNEL_ID)
