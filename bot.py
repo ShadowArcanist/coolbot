@@ -68,10 +68,18 @@ class SupportBot(commands.Cog):
                 # Directly delete the message without sending a response
                 await message.delete()
 
+        if message.author == self.bot.user:
+            return
+        await self.bot.process_commands(message)
+
     async def handle_support_request(self, message):
         try:
             replied_message = await message.channel.fetch_message(message.reference.message_id)
 
+            if replied_message.author == self.bot.user:
+                await message.delete() 
+                return
+            
             messages_to_move = await self.get_messages_to_move(message, replied_message)
 
             content = self.compile_content(messages_to_move)
